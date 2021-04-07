@@ -18,7 +18,8 @@ import Page404 from '../../components/Common/Page404';
 
 class Brand extends React.PureComponent {
   render() {
-    const { user } = this.props;
+    // const { user } = this.props;
+    let user = {firstname: '', lastname: '', role: 'ROLE_MERCHANT'}
 
     return (
       <div className='brand-dashboard'>

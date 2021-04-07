@@ -24,7 +24,9 @@ class Dashboard extends React.PureComponent {
   }
 
   render() {
-    const { user, isLoading, isMenuOpen, toggleDashboardMenu } = this.props;
+    const { isLoading, isMenuOpen, toggleDashboardMenu } = this.props;
+
+    let user = {firstname: '', lastname: '', role: 'ROLE_MERCHANT'}
 
     return (
       <>

@@ -20,7 +20,28 @@ import {
 } from './constants';
 
 const initialState = {
-  brands: [],
+  brands: [{
+    name: "Gucci",
+    slug: "gucci"
+  },{
+    name: "Polo",
+    slug: "polo"
+  },{
+    name: "Gucci gucci",
+    slug: "gucci-gucci"
+  },{
+    name: "Ecommerce products",
+    slug: "ecommerce-products"
+  },{
+    name: "calvin klein",
+    slug: "calvin-klein"
+  },{
+    name: "Tommy Hilfiger",
+    slug: "tommy-hilfiger"
+  },{
+    name: "Apple",
+    slug: "aplle"
+  }],
   storeBrands: [{
     name: "Gucci",
     slug: "gucci"
