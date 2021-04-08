@@ -60,7 +60,7 @@ const EditBrand = props => {
           <Button
             variant='danger'
             text='Delete'
-            onClick={() => deleteBrand(brand._id)}
+            onClick={() => deleteBrand(brand.id)}
           />
         </div>
       </form>

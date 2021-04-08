@@ -9,7 +9,7 @@ import {
   FETCH_PROFILE,
   TOGGLE_RESET_FORM,
   CLEAR_ACCOUNT,
-  SET_PROFILE_LOADING
+  SET_PROFILE_LOADING,
 } from './constants';
 
 const initialState = {

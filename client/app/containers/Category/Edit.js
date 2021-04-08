@@ -43,7 +43,7 @@ class Edit extends React.PureComponent {
         actionTitle='Cancel'
         handleAction={() => history.goBack()}
       >
-        {category?._id ? (
+        {category?.id ? (
           <EditCategory
             category={category}
             formErrors={formErrors}

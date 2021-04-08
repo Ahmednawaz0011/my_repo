@@ -13,7 +13,7 @@ import Input from '../../Common/Input';
 import Button from '../../Common/Button';
 
 const AccountDetails = props => {
-  const { user, accountChange, updateProfile } = props;
+  const { user, accountChange, updateProfile,postMerchantRequest } = props;
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -34,6 +34,7 @@ const AccountDetails = props => {
             )}
           </p>
           <UserRole user={user} />
+         {!user.merchantRequest && user.role == 'ROLE_MEMBER' ? <Button type='button' onClick={postMerchantRequest} className="ml-3" variant='secondary' text='Get Merchant Account' />:null}
         </div>
       </div>
       <form onSubmit={handleSubmit}>

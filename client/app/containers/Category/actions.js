@@ -116,34 +116,24 @@ export const addCategory = () => {
       const rules = {
         name: 'required|min:1',
         description: 'required|min:1|max:200',
-        products: 'required'
       };
 
       const category = getState().category.categoryFormData;
-      const products = getState().product.selectedProducts;
 
-      let newProducts = unformatSelectOptions(products);
-
-      let newCategory = {
-        products: newProducts,
-        ...category
-      };
-
-      const { isValid, errors } = allFieldsValidation(newCategory, rules, {
+      const { isValid, errors } = allFieldsValidation(category, rules, {
         'required.name': 'Name is required.',
         'min.name': 'Name must be at least 1 character.',
         'required.description': 'Description is required.',
         'min.description': 'Description must be at least 1 character.',
         'max.description':
           'Description may not be greater than 200 characters.',
-        'required.products': 'Products is required.'
       });
 
       if (!isValid) {
         return dispatch({ type: SET_CATEGORY_FORM_ERRORS, payload: errors });
       }
 
-      const response = await axios.post(`/api/category/add`, newCategory);
+      const response = await axios.post(`/api/category/add`, category);
 
       const successfulOptions = {
         title: `${response.data.message}`,
@@ -198,7 +188,7 @@ export const updateCategory = () => {
         });
       }
 
-      const response = await axios.put(`/api/category/${category._id}`, {
+      const response = await axios.put(`/api/category/${category.id}`, {
         category: newCategory
       });
 

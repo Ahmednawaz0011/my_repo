@@ -18,7 +18,7 @@ class Account extends React.PureComponent {
   }
 
   render() {
-    const { user, accountChange, updateProfile } = this.props;
+    const { user, accountChange, updateProfile,postMerchantRequest } = this.props;
 
     return (
       <div className='account'>
@@ -27,6 +27,7 @@ class Account extends React.PureComponent {
             user={user}
             accountChange={accountChange}
             updateProfile={updateProfile}
+            postMerchantRequest={postMerchantRequest}
           />
         </SubPage>
       </div>

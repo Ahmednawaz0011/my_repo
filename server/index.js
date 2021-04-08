@@ -7,18 +7,30 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const historyApiFallback = require('connect-history-api-fallback');
 const compression = require('compression');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const passport = require('passport');
 const path = require('path');
 
 const keys = require('./config/keys');
 const webpackConfig = require('../webpack.config');
+const routes = require('./routes');
+
+const db = require("./models");
+
 const { port } = keys;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
 
-// Connect to MongoDB
+db.sequelize.sync({ }).then(() => {
+  console.log("Drop and re-sync db.");
+});
+
+require('./config/passport');
+app.use(routes);
 
 // if development
 if (process.env.NODE_ENV !== 'production') {

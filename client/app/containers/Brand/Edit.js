@@ -43,7 +43,7 @@ class Edit extends React.PureComponent {
         actionTitle='Cancel'
         handleAction={() => history.goBack()}
       >
-        {brand?._id ? (
+        {brand?.id ? (
           <EditBrand
             brand={brand}
             brandChange={brandEditChange}

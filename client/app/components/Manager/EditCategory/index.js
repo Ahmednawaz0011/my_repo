@@ -66,7 +66,7 @@ const EditCategory = props => {
           <Button
             variant='danger'
             text='Delete'
-            onClick={() => deleteCategory(category._id)}
+            onClick={() => deleteCategory(category.id)}
           />
         </div>
       </form>

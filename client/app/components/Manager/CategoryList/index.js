@@ -22,16 +22,16 @@ const CategoryList = props => {
             <Switch
               tooltip={category.isActive}
               tooltipContent={`Disabling ${category.name} will also disable all ${category.name} products.`}
-              id={`enable-category-${category._id}`}
+              id={`enable-category-${category.id}`}
               name={'isActive'}
               checked={category.isActive}
               toggleCheckboxChange={value =>
-                activateCategory(category._id, value)
+                activateCategory(category.id, value)
               }
             />
           </div>
           <Link
-            to={`/dashboard/category/edit/${category._id}`}
+            to={`/dashboard/category/edit/${category.id}`}
             className='d-block'
           >
             <p className='category-desc mb-2'>{category.description}</p>

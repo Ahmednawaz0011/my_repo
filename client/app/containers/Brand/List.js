@@ -20,6 +20,7 @@ class List extends React.PureComponent {
 
   render() {
     const { history, brands, user, activateBrand } = this.props;
+console.log(brands, 'brands brands brands');
 
     return (
       <>

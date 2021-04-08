@@ -7,7 +7,7 @@
 import { SET_AUTH, CLEAR_AUTH } from './constants';
 
 const initialState = {
-  authenticated: false,
+  authenticated: true,
   isLoading: false
 };
 

@@ -7,7 +7,7 @@
 import { FETCH_USERS } from './constants';
 
 const initialState = {
-  users: []
+  users: {role: 'ROLE_MERCHANT'}
 };
 
 const usersReducer = (state = initialState, action) => {

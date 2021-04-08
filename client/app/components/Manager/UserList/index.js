@@ -8,9 +8,9 @@ import React from 'react';
 
 import { formatDate } from '../../../helpers/date';
 import UserRole from '../UserRole';
-
+import Button from '../../Common/Button';
 const UserList = props => {
-  const { users } = props;
+  const { users, approveMerchantRequest } = props;
 
   return (
     <div className='u-list'>
@@ -30,6 +30,8 @@ const UserList = props => {
           <label className='text-black'>Role</label>
           <p className='mb-0'>
             <UserRole user={user} className='d-inline-block mt-2' />
+            {user?.merchantRequest && user?.role == 'ROLE_MEMBER' ? <Button type='button' onClick={()=>approveMerchantRequest(user.id)} className="ml-3" variant='secondary' text='Approve as merchant' />:null}
+          
           </p>
         </div>
       ))}

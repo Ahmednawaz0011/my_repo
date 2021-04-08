@@ -16,15 +16,20 @@ import SubPage from '../../components/Manager/SubPage';
 import NotFound from '../../components/Common/NotFound';
 
 class Users extends React.PureComponent {
+  componentDidMount(){
+    this.props.fetchUsers({value: ""})
+   }
   render() {
-    const { users, searchUsers } = this.props;
+    const { users, searchUsers, approveMerchantRequest } = this.props;
+
+
 
     return (
       <div className='users-dashboard'>
         <SubPage title='Users' />
         <UserSearch onSearchSubmit={searchUsers} />
         {users.length > 0 ? (
-          <UserList users={users} />
+          <UserList users={users} approveMerchantRequest={approveMerchantRequest} />
         ) : (
           <NotFound message='No Users Found!' />
         )}

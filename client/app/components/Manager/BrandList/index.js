@@ -22,13 +22,13 @@ const BrandList = props => {
             <Switch
               tooltip={brand.isActive}
               tooltipContent={`Disabling ${brand.name} will also disable all ${brand.name} products.`}
-              id={`enable-brand-${brand._id}`}
+              id={`enable-brand-${brand.id}`}
               name={'isActive'}
               checked={brand.isActive}
-              toggleCheckboxChange={value => activateBrand(brand._id, value)}
+              toggleCheckboxChange={value => activateBrand(brand.id, value)}
             />
           </div>
-          <Link to={`/dashboard/brand/edit/${brand._id}`} className='d-block'>
+          <Link to={`/dashboard/brand/edit/${brand.id}`} className='d-block'>
             <p className='brand-desc mb-2'>{brand.description}</p>
             {brand?.merchant && (
               <div className='d-flex'>

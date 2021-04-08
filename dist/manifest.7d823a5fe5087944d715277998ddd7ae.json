@@ -57,7 +57,7 @@
     }
   ],
   "name": "E-commerce",
-  "short_name": "EStore",
+  "short_name": "MERNStore",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": ".",

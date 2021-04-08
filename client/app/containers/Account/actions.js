@@ -12,7 +12,7 @@ import {
   FETCH_PROFILE,
   TOGGLE_RESET_FORM,
   CLEAR_ACCOUNT,
-  SET_PROFILE_LOADING
+  SET_PROFILE_LOADING,
 } from './constants';
 import handleError from '../../utils/error';
 
@@ -76,6 +76,27 @@ export const updateProfile = () => {
       };
 
       dispatch({ type: FETCH_PROFILE, payload: response.data.user });
+
+      dispatch(success(successfulOptions));
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+
+export const postMerchantRequest = () => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.put(`/api/user/merchantRequest`);
+
+      const successfulOptions = {
+        title: `${response.data.message}`,
+        position: 'tr',
+        autoDismiss: 1
+      };
+
+      dispatch({ type:  FETCH_PROFILE, payload: {...response.data.user, merchantRequest:true} });
 
       dispatch(success(successfulOptions));
     } catch (error) {

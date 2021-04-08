@@ -136,7 +136,7 @@ module.exports = {
     }),
     new WebpackPwaManifest({
       name: 'E-commerce',
-      short_name: 'EStore',
+      short_name: 'MERNStore',
       description: 'E-commerce!',
       background_color: '#fff',
       theme_color: '#4a68aa',

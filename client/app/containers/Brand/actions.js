@@ -195,7 +195,7 @@ export const updateBrand = () => {
         return dispatch({ type: SET_BRAND_FORM_EDIT_ERRORS, payload: errors });
       }
 
-      const response = await axios.put(`/api/brand/${brand._id}`, {
+      const response = await axios.put(`/api/brand/${brand.id}`, {
         brand: newBrand
       });
 

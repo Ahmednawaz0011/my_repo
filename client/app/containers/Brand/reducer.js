@@ -20,50 +20,8 @@ import {
 } from './constants';
 
 const initialState = {
-  brands: [{
-    name: "Gucci",
-    slug: "gucci"
-  },{
-    name: "Polo",
-    slug: "polo"
-  },{
-    name: "Gucci gucci",
-    slug: "gucci-gucci"
-  },{
-    name: "Ecommerce products",
-    slug: "ecommerce-products"
-  },{
-    name: "calvin klein",
-    slug: "calvin-klein"
-  },{
-    name: "Tommy Hilfiger",
-    slug: "tommy-hilfiger"
-  },{
-    name: "Apple",
-    slug: "aplle"
-  }],
-  storeBrands: [{
-    name: "Gucci",
-    slug: "gucci"
-  },{
-    name: "Polo",
-    slug: "polo"
-  },{
-    name: "Gucci gucci",
-    slug: "gucci-gucci"
-  },{
-    name: "Ecommerce products",
-    slug: "ecommerce-products"
-  },{
-    name: "calvin klein",
-    slug: "calvin-klein"
-  },{
-    name: "Tommy Hilfiger",
-    slug: "tommy-hilfiger"
-  },{
-    name: "Apple",
-    slug: "aplle"
-  }],
+  brands: [],
+  storeBrands: [],
   brand: {
     name: '',
     description: ''
@@ -113,7 +71,7 @@ const brandReducer = (state = initialState, action) => {
         brands: [...state.brands, action.payload]
       };
     case REMOVE_BRAND:
-      const index = state.brands.findIndex(b => b._id === action.payload);
+      const index = state.brands.findIndex(b => b.id === action.payload);
       return {
         ...state,
         brands: [
