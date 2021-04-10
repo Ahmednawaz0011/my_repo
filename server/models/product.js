@@ -1,5 +1,8 @@
 
+
+
 module.exports = (sequelize, Sequelize) => {
+
   const Product = sequelize.define("Product", {
     sku: {
       type: Sequelize.STRING
@@ -38,9 +41,10 @@ module.exports = (sequelize, Sequelize) => {
       default: true
     },
     brand: {
-      type: Sequelize.STRING,
-      ref: 'Brand',
-      default: null
+      type: Sequelize.INTEGER,
+    },
+    category: {
+      type: Sequelize.INTEGER,
     },
   updated: Sequelize.DATE,
   created: {
@@ -48,7 +52,6 @@ module.exports = (sequelize, Sequelize) => {
     default: Date.now
   }
   });
-
   return Product;
 };
 

@@ -120,14 +120,13 @@ router.get(
       let brands = null;
 
       if (req.user.merchant) {
-        brands = await Brand.find(
-          {
+        brands = await Brand.findAll(
+          {where:{
             merchant: req.user.merchant
-          },
-          'name'
+          }},
         );
       } else {
-        brands = await Brand.find({}, 'name');
+        brands = await Brand.findAll({}, 'name');
       }
 
       res.status(200).json({

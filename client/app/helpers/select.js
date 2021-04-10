@@ -10,7 +10,7 @@ export const formatSelectOptions = (data, isMulti) => {
   data.map(option => {
     let newOption = {};
 
-    newOption.value = option._id;
+    newOption.value = option.id;
     newOption.label = option.name;
 
     newSelectOptions.push(newOption);
@@ -34,9 +34,9 @@ export const unformatSelectOptions = data => {
   data.map(option => {
     let newOption = {};
 
-    newOption._id = option.value;
+    newOption.id = option.value;
 
-    newSelectOptions.push(newOption._id);
+    newSelectOptions.push(newOption.id);
   });
 
   return newSelectOptions;

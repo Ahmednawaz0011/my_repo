@@ -19,13 +19,15 @@ import {
   RESET_CATEGORY,
   TOGGLE_ADD_CATEGORY,
   ADD_CATEGORY,
-  REMOVE_CATEGORY
+  REMOVE_CATEGORY,
+  FETCH_CATEGORY_SELECT,
+  CATEGORY_SELECT
 } from './constants';
 
 import { RESET_PRODUCT } from '../Product/constants';
 
 import handleError from '../../utils/error';
-import { unformatSelectOptions } from '../../helpers/select';
+import { unformatSelectOptions,formatSelectOptions } from '../../helpers/select';
 import { allFieldsValidation } from '../../utils/validation';
 
 export const categoryChange = (name, value) => {
@@ -61,6 +63,13 @@ export const categorySelect = value => {
   };
 };
 
+export const handleCategorySelect = value => {
+  return {
+    type: CATEGORY_SELECT,
+    payload: value
+  };
+};
+
 // fetch store categories api
 export const fetchStoreCategories = () => {
   return async (dispatch, getState) => {
@@ -86,6 +95,23 @@ export const fetchCategories = () => {
       dispatch({
         type: FETCH_CATEGORIES,
         payload: response.data.categories
+      });
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+// fetch categories select api
+export const fetchCategorySelect = () => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get(`/api/category/list/select`);
+      let formattedCategory = formatSelectOptions(response.data.categories);
+
+      dispatch({
+        type: FETCH_CATEGORY_SELECT,
+        payload: formattedCategory
       });
     } catch (error) {
       handleError(error, dispatch);

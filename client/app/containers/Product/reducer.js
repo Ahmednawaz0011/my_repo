@@ -86,7 +86,7 @@ const initialState = {
     }
   ],
   product: {
-    _id: ''
+    id: ''
   },
   storeProduct: {},
   productsSelect: [],
@@ -155,7 +155,7 @@ const productReducer = (state = initialState, action) => {
         products: [...state.products, action.payload]
       };
     case REMOVE_PRODUCT:
-      const index = state.products.findIndex(b => b._id === action.payload);
+      const index = state.products.findIndex(b => b.id === action.payload);
       return {
         ...state,
         products: [

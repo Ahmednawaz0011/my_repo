@@ -29,4 +29,10 @@ db.merchant = require("./merchant")(sequelize, Sequelize);
 db.order = require("./order")(sequelize, Sequelize);
 db.product = require("./product")(sequelize, Sequelize);
 
+db.brand.hasMany(db.product, {foreignKey: 'id'})
+db.product.belongsTo(db.brand, {foreignKey: 'brand'})
+
+db.category.hasMany(db.product, {foreignKey: 'id'})
+db.product.belongsTo(db.category, {foreignKey: 'category'})
+
 module.exports = db;

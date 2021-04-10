@@ -55,6 +55,25 @@ router.get('/list', (req, res) => {
   })
 });
 
+router.get(
+  '/list/select',
+  auth,
+  role.checkRole(role.ROLES.Admin, role.ROLES.Merchant),
+  async (req, res) => {
+    try {
+       let categories = await Category.findAll({}, 'name');
+
+      res.status(200).json({
+        categories
+      });
+    } catch (error) {
+      res.status(400).json({
+        error: 'Your request could not be processed. Please try again.'
+      });
+    }
+  }
+);
+
 // fetch categories api
 router.get('/', (req, res) => {
   Category.findAll().then(data => {

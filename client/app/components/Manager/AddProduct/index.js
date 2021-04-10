@@ -20,11 +20,17 @@ const AddProduct = props => {
     productChange,
     addProduct,
     handleBrandSelect,
+    handleCategorySelect,
     selectedBrands,
+    selectedCategory,
     brands,
+    categories,
     taxableSelect,
     image
   } = props;
+
+  console.log(brands, 'brands brands brands');
+  
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -124,6 +130,18 @@ const AddProduct = props => {
               value={selectedBrands}
               handleSelectChange={value => {
                 handleBrandSelect(value);
+              }}
+            />
+          </Col>
+          <Col xs='12' md='12'>
+            <SelectOption
+              error={formErrors['category']}
+              label={'Select Category'}
+              multi={false}
+              options={categories}
+              value={selectedCategory}
+              handleSelectChange={value => {
+                handleCategorySelect(value);
               }}
             />
           </Col>

@@ -15,39 +15,19 @@ import {
   RESET_CATEGORY,
   TOGGLE_ADD_CATEGORY,
   ADD_CATEGORY,
-  REMOVE_CATEGORY
+  REMOVE_CATEGORY,
+  FETCH_CATEGORY_SELECT,
+  CATEGORY_SELECT
 } from './constants';
 
 const initialState = {
   categories: [],
-  storeCategories: [{
-    name: 'Electronic Devices',
-    slug: 'electronic'
-  },{
-    name: 'Health & Beauty',
-    slug: 'health-beauty'
-  },{
-    name: 'Babies & Toys',
-    slug: 'babies-toys'
-  },{
-    name: 'Home & Lifestyle',
-    slug: 'home-lifestyle'
-  },{
-    name: "Women's Fashion",
-    slug: 'women-fashion'
-  },{
-    name: "Men's Fashion",
-    slug: 'men-fashion'
-  },{
-    name: 'Sports & Outdoor',
-    slug: 'sports-outdoor'
-  },{
-    name: 'Automotive & Motorbike',
-    slug: 'automotive-motorbike'
-  },],
+  storeCategories: [],
   category: {
-    _id: ''
+    id: ''
   },
+  categorySelect:[],
+  selectedCategory:[],
   isCategoryAddOpen: false,
   categoryFormData: {
     name: '',
@@ -102,6 +82,16 @@ const categoryReducer = (state = initialState, action) => {
           ...action.payload
         }
       };
+      case FETCH_CATEGORY_SELECT:
+        return {
+          ...state,
+          categorySelect: action.payload
+        };
+        case CATEGORY_SELECT:
+          return {
+            ...state,
+            selectedCategory: action.payload
+          };
     case SET_CATEGORY_FORM_ERRORS:
       return {
         ...state,

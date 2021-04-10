@@ -15,7 +15,7 @@ const ProductList = props => {
     <div className='p-list'>
       {products.map((product, index) => (
         <Link
-          to={`/dashboard/product/edit/${product._id}`}
+          to={`/dashboard/product/edit/${product.id}`}
           key={index}
           className='d-block'
         >
@@ -24,7 +24,7 @@ const ProductList = props => {
               className='item-image'
               src={`${
                 product && product.imageUrl
-                  ? product.imageUrl
+                  ? '/api/product/get/'+product.imageUrl
                   : '/images/placeholder-image.png'
               }`}
             />

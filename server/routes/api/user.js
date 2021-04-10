@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Bring in Models & Helpers
 // const User = require('../../models/user');
-const Brand = require('../../models/brand');
+// const Brand = require('../../models/brand');
 const auth = require('../../middleware/auth');
 const role = require('../../middleware/role');
 
@@ -118,7 +118,7 @@ router.put('/merchantRequest', auth, async (req, res) => {
 router.put('/update-to-merchant/:id', auth, role.checkRole(role.ROLES.Admin), async (req, res) => {
   const { id } = req.params;
 
-  User.update({ role: role.ROLES.Merchant }, { where: { id: id } }).then(updated => {
+  User.update({ role: role.ROLES.Merchant,merchantRequest:0  }, { where: { id: id } }).then(updated => {
     if (updated == 1) {
       res.status(200).json({
         success: true,

@@ -2,16 +2,22 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const AWS = require('aws-sdk');
-
+const fs = require('fs')
 // Bring in Models & Helpers
-const Product = require('../../models/product');
-const Brand = require('../../models/brand');
-const Category = require('../../models/category');
+const db = require("../../models");
+const Product = db.product;
+const Brand = db.brand;
+const Category = db.category;
+const path = require('path')
+// const Product = require('../../models/product');
+// const Brand = require('../../models/brand');
+// const Category = require('../../models/category');
 const auth = require('../../middleware/auth');
 const role = require('../../middleware/role');
+const upload = require('../../middleware/upload')
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 router.post(
   '/add',
@@ -28,7 +34,11 @@ router.post(
       const taxable = req.body.taxable;
       const isActive = req.body.isActive;
       const brand = req.body.brand != 0 ? req.body.brand : null;
-      const image = req.file;
+      const category = req.body.category != 0 ? req.body.category : null;
+      const imageUrl = req.file ? req.file.filename : '';
+
+      console.log(req.file.filename, 'file is the');
+
 
       if (!sku) {
         return res.status(400).json({ error: 'You must enter sku.' });
@@ -48,37 +58,13 @@ router.post(
         return res.status(400).json({ error: 'You must enter a price.' });
       }
 
-      const foundProduct = await Product.findOne({ sku });
+      const foundProduct = await Product.findOne({ where: { sku: sku } });
 
       if (foundProduct) {
         return res.status(400).json({ error: 'This sku is already in use.' });
       }
 
-      let imageUrl = '';
-      let imageKey = '';
-
-      if (image) {
-        const s3bucket = new AWS.S3({
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-          region: process.env.AWS_REGION
-        });
-
-        const params = {
-          Bucket: process.env.AWS_BUCKET_NAME,
-          Key: image.originalname,
-          Body: image.buffer,
-          ContentType: image.mimetype,
-          ACL: 'public-read'
-        };
-
-        const s3Upload = await s3bucket.upload(params).promise();
-
-        imageUrl = s3Upload.Location;
-        imageKey = s3Upload.key;
-      }
-
-      const product = new Product({
+      const product = {
         sku,
         name,
         description,
@@ -87,11 +73,12 @@ router.post(
         taxable,
         isActive,
         brand,
+        category,
         imageUrl,
-        imageKey
-      });
+        // imageKey
+      };
 
-      const savedProduct = await product.save();
+      const savedProduct = await Product.create(product);
 
       res.status(200).json({
         success: true,
@@ -99,6 +86,8 @@ router.post(
         product: savedProduct
       });
     } catch (error) {
+      console.log(error, ' eroro');
+
       return res.status(400).json({
         error: 'Your request could not be processed. Please try again.'
       });
@@ -149,13 +138,10 @@ router.get(
           })
           .where('brand', brandId);
       } else {
-        products = await Product.find({}).populate({
-          path: 'brand',
-          populate: {
-            path: 'merchant',
-            model: 'Merchant'
-          }
-        });
+        products = await Product.findAll({
+          include: [
+            { model: Brand},{ model: Category }]
+        })
       }
 
       res.status(200).json({
@@ -174,9 +160,7 @@ router.get('/:id', async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const productDoc = await Product.findOne({ _id: productId }).populate(
-      'brand'
-    );
+    const productDoc = await Product.findOne({ where: { id: productId } })
 
     if (!productDoc) {
       return res.status(404).json({
@@ -295,11 +279,9 @@ router.put(
     try {
       const productId = req.params.id;
       const update = req.body.product;
-      const query = { _id: productId };
+      const query = { id: productId };
 
-      await Product.findOneAndUpdate(query, update, {
-        new: true
-      });
+      await Product.update(update, { where: query });
 
       res.status(200).json({
         success: true,
@@ -321,11 +303,9 @@ router.put(
     try {
       const productId = req.params.id;
       const update = req.body.product;
-      const query = { _id: productId };
+      const query = { id: productId };
 
-      await Product.findOneAndUpdate(query, update, {
-        new: true
-      });
+      await Product.update(update, { where: query });
 
       res.status(200).json({
         success: true,
@@ -345,7 +325,7 @@ router.delete(
   role.checkRole(role.ROLES.Admin, role.ROLES.Merchant),
   async (req, res) => {
     try {
-      const product = await Product.deleteOne({ _id: req.params.id });
+      const product = await Product.destroy({ where: { id: req.params.id } });
 
       res.status(200).json({
         success: true,
@@ -359,5 +339,10 @@ router.delete(
     }
   }
 );
+
+router.get('/get/:imgName', (req, res) => {
+  const url = path.join(__dirname, '../../uploads/' + req.params.imgName)
+  res.sendFile(url);
+})
 
 module.exports = router;

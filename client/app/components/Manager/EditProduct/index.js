@@ -59,13 +59,13 @@ const EditProduct = props => {
           </Col>
           <Col xs='12' md='12'>
             <Switch
-              id={`enable-product-${product._id}`}
+              id={`enable-product-${product.id}`}
               name={'isActive'}
               label={'Active?'}
               checked={product?.isActive}
               toggleCheckboxChange={value => {
                 productChange('isActive', value);
-                activateProduct(product._id, value);
+                activateProduct(product.id, value);
               }}
             />
           </Col>
@@ -80,7 +80,7 @@ const EditProduct = props => {
           <Button
             variant='danger'
             text='Delete'
-            onClick={() => deleteProduct(product._id)}
+            onClick={() => deleteProduct(product.id)}
           />
         </div>
       </form>

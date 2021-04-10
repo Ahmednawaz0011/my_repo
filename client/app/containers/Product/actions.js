@@ -583,15 +583,18 @@ export const addProduct = () => {
         price: 'required|numeric',
         taxable: 'required',
         brand: 'required',
+        category: 'required',
         image: 'required'
       };
 
       const product = getState().product.productFormData;
       const brand = getState().brand.selectedBrands.value;
+      const category = getState().category.selectedCategory.value;
 
       const newProduct = {
         ...product,
-        brand: brand
+        brand,
+        category
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
@@ -607,6 +610,7 @@ export const addProduct = () => {
         'required.price': 'Price is required.',
         'required.taxable': 'Taxable is required.',
         'required.brand': 'Brand is required.',
+        'required.category': 'Category is required.',
         'required.image': 'Please upload files with jpg, jpeg, png format.'
       });
 
@@ -678,7 +682,7 @@ export const updateProduct = () => {
         });
       }
 
-      const response = await axios.put(`/api/product/${product._id}`, {
+      const response = await axios.put(`/api/product/${product.id}`, {
         product: newProduct
       });
 

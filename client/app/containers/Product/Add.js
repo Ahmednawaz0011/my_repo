@@ -16,6 +16,7 @@ import SubPage from '../../components/Manager/SubPage';
 class Add extends React.PureComponent {
   componentDidMount() {
     this.props.fetchBrandsSelect();
+    this.props.fetchCategorySelect();
   }
 
   render() {
@@ -26,10 +27,17 @@ class Add extends React.PureComponent {
       taxableSelect,
       selectedBrands,
       brands,
+      selectedCategory,
+      categories,
       productChange,
       handleBrandSelect,
+      handleCategorySelect,
       addProduct
     } = this.props;
+
+
+    console.log(categories, 'categories categories categories');
+    
 
     return (
       <SubPage
@@ -42,9 +50,12 @@ class Add extends React.PureComponent {
           formErrors={formErrors}
           taxableSelect={taxableSelect}
           selectedBrands={selectedBrands}
+          selectedCategory={selectedCategory}
           brands={brands}
+          categories={categories}
           productChange={productChange}
           handleBrandSelect={handleBrandSelect}
+          handleCategorySelect={handleCategorySelect}
           addProduct={addProduct}
         />
       </SubPage>
@@ -58,7 +69,9 @@ const mapStateToProps = state => {
     formErrors: state.product.formErrors,
     taxableSelect: state.product.taxableSelect,
     selectedBrands: state.brand.selectedBrands,
-    brands: state.brand.brandsSelect
+    selectedCategory: state.category.selectedCategory,
+    brands: state.brand.brandsSelect,
+    categories: state.category.categorySelect
   };
 };
 
