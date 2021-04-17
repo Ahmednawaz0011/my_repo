@@ -24,7 +24,7 @@ An ecommerce store built with E stack, and utilizes third party API's. This ecom
 Some basic Git commands are:
 
 ```
-$ git clone https://github.com/Arfan37901/E-commerce.git
+$ git clone https://github.com/Ahmednawaz0011/my_repo.git
 $ cd project
 $ npm install
 ```
