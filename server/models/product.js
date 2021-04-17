@@ -11,11 +11,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       trim: true
     },
-    slug: {
-      type: Sequelize.STRING,
-      slug: 'name',
-      unique: true
-    },
     imageUrl: {
       type: Sequelize.STRING
     },
@@ -34,22 +29,35 @@ module.exports = (sequelize, Sequelize) => {
     },
     taxable: {
       type: Sequelize.BOOLEAN,
-      default: false
+      defaultValue: false
     },
     isActive: {
       type: Sequelize.BOOLEAN,
-      default: true
+      defaultValue: true
     },
     brand: {
       type: Sequelize.INTEGER,
+      // allowNull: false,
+      // references: {         // User belongsTo Company 1:1
+      //   model: 'brand',
+      //   key: 'id'
+      // }
     },
     category: {
       type: Sequelize.INTEGER,
+      // allowNull: false,
+      // references: {         // User belongsTo Company 1:1
+      //   model: 'category',
+      //   key: 'id'
+      // }
+    },
+    merchant:{
+      type: Sequelize.INTEGER
     },
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
   return Product;

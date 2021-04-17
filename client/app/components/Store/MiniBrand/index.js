@@ -32,7 +32,7 @@ const MiniBrand = props => {
         {brands.map((brand, index) => (
           <div key={index} className='brand-item'>
             <Link
-              to={`/shop/brand/${brand.slug}`}
+              to={`/shop/brand/${brand.id}`}
               className='brand-link'
               role='menuitem'
               onClick={handleMenuItemClick}

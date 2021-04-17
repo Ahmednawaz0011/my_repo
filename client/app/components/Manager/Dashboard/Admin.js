@@ -21,6 +21,8 @@ import Category from '../../../containers/Category';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Merchant from '../../../containers/Merchant';
+import Stats from '../../../containers/Stats';
+import Chat from '../../../containers/Chat';
 
 const Admin = props => {
   return (
@@ -33,6 +35,7 @@ const Admin = props => {
           <div className='panel-body'>
             <Switch>
               <Route exact path='/dashboard' component={Account} />
+              <Route exact path='/dashboard/stats' component={Stats} />
               <Route
                 exact
                 path='/dashboard/security'
@@ -45,6 +48,7 @@ const Admin = props => {
               <Route path='/dashboard/users' component={Users} />
               <Route path='/dashboard/merchants' component={Merchant} />
               <Route path='/dashboard/orders' component={Order} />
+              <Route path='/dashboard/chat' component={Chat} />
               <Route path='*' component={Page404} />
             </Switch>
           </div>

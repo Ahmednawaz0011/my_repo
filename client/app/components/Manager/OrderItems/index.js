@@ -14,11 +14,13 @@ import DropdownConfirm from '../../Common/DropdownConfirm';
 
 const OrderItems = props => {
   const { order, cancelOrderItem } = props;
+  console.log(order);
+  
 
   const renderPopoverContent = item => {
     return (
       <div className='d-flex flex-column align-items-center justify-content-center p-2'>
-        <p className='text-center mb-2'>{`Are you sure you want to cancel ${item.product.name}.`}</p>
+        <p className='text-center mb-2'>{`Are you sure you want to cancel ${item.name}.`}</p>
         <Button
           variant='danger'
           id='CancelOrderItemPopover'
@@ -26,7 +28,7 @@ const OrderItems = props => {
           text='Confirm Cancel'
           role='menuitem'
           className='cancel-order-btn'
-          onClick={() => cancelOrderItem(item._id, order.products)}
+          onClick={() => cancelOrderItem(item.id, order.orderDetails)}
         />
       </div>
     );
@@ -36,7 +38,7 @@ const OrderItems = props => {
     <div className='order-items pt-3'>
       <h2>Order Items</h2>
       <Row>
-        {order.products.map((item, index) => (
+        {order?.OrderDetails?.map((item, index) => (
           <Col xs='12' key={index} className='item'>
             <div className='order-item-box'>
               <div className='d-flex justify-content-between flex-column flex-md-row'>
@@ -44,25 +46,25 @@ const OrderItems = props => {
                   <img
                     className='item-image'
                     src={`${
-                      item.product && item.product.imageUrl
-                        ? item.product.imageUrl
+                      item && item.Product?.imageUrl
+                      ? '/api/product/get/'+item.Product?.imageUrl
                         : '/images/placeholder-image.png'
                     }`}
                   />
                   <div className='d-md-flex flex-1 align-items-start ml-4 item-box'>
                     <div className='item-details'>
-                      {item.product ? (
+                      {item ? (
                         <>
                           <Link
-                            to={`/product/${item.product.slug}`}
+                            to={`/product/${item.product}`}
                             className='item-link'
                           >
                             <h4 className='d-block item-name one-line-ellipsis'>
-                              {item.product.name}
+                              {item.Product?.name}
                             </h4>
                           </Link>
                           <div className='d-flex align-items-center justify-content-between'>
-                            <span className='price'>${item.product.price}</span>
+                            <span className='price'>${item.productPrice}</span>
                           </div>
                         </>
                       ) : (
@@ -80,7 +82,7 @@ const OrderItems = props => {
                       </p>
                       <p>
                         Total Price
-                        <span className='order-label'>{` $${item.totalPrice}`}</span>
+                        <span className='order-label'>{` $${item.productPrice * item.quantity}`}</span>
                       </p>
                     </div>
                   </div>
@@ -98,16 +100,16 @@ const OrderItems = props => {
                   </div>
 
                   <div className='text-center'>
-                    <p className='order-label'>{` $${item.totalPrice}`}</p>
+                    <p className='order-label'>{` $${item.productPrice * item.quantity}`}</p>
 
                     <p>Total Price</p>
                   </div>
                 </div>
               </div>
 
-              {item.product &&
-                item.status !== 'Cancelled' &&
-                order.products.length !== 1 && (
+              {item &&
+                item.status !== 'Cancelled' && item.status !== 'Delivered' &&
+                order?.orderDetails?.length !== 1 && (
                   <div className='text-right mt-2 mt-md-0'>
                     <DropdownConfirm label='Cancel Item'>
                       {renderPopoverContent(item)}

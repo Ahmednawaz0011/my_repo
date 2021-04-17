@@ -11,6 +11,7 @@ const contactRoutes = require('./contact');
 const merchantRoutes = require('./merchant');
 const cartRoutes = require('./cart');
 const orderRoutes = require('./order');
+const statsRoutes = require('./stats');
 
 // auth routes
 router.use('/auth', authRoutes);
@@ -44,5 +45,9 @@ router.use('/cart', cartRoutes);
 
 // order routes
 router.use('/order', orderRoutes);
+
+// stats routes
+router.use('/stats', statsRoutes);
+
 
 module.exports = router;

@@ -182,7 +182,7 @@ const getCartItems = cartItems => {
     const newItem = {};
     newItem.quantity = item.quantity;
     newItem.totalPrice = item.totalPrice;
-    newItem.product = item._id;
+    newItem.product = item.id;
     newCartItems.push(newItem);
   });
 

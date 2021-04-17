@@ -20,6 +20,7 @@ const db = require("./models");
 const { port } = keys;
 const app = express();
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
@@ -31,6 +32,7 @@ db.sequelize.sync({ }).then(() => {
 
 require('./config/passport');
 app.use(routes);
+
 
 // if development
 if (process.env.NODE_ENV !== 'production') {
@@ -67,7 +69,101 @@ if (process.env.NODE_ENV !== 'production') {
   });
 }
 
-app.listen(port, () => {
+const httpServer = require('http').createServer(app)
+
+// const io = require('socket.io')(http);
+
+
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "http://localhost:5000",
+  },
+});
+
+io.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+  if (sessionID) {
+    // find existing session
+    const session = sessionStore.findSession(sessionID);
+    console.log(session, 'session found');
+    
+    if (session) {
+      socket.sessionID = sessionID;
+      socket.userID = session.userID;
+      socket.username = session.username;
+      return next();
+    }
+  }
+
+  const username = socket.handshake.auth.username;
+
+  // console.log(username, 'user connection',socket.handshake);
+  if (!username) {
+    return next(new Error("invalid user"));
+  }
+
+  socket.sessionID = randomId();
+  socket.userID = randomId();
+  socket.username = username;
+  
+  next();
+});
+
+
+
+io.on("connection", (socket) => {
+  const users = [];
+  for (let [id, socket] of io.of("/").sockets) {
+    console.log(id, 'id with socket');
+    
+    users.push({
+      userID: id,
+      username: socket.username,
+    });
+  }
+  socket.emit("users", users);
+
+  socket.emit("session", {
+    sessionID: socket.sessionID,
+    userID: socket.userID,
+  });
+  socket.join(socket.userID);
+  // notify existing users
+  socket.broadcast.emit("user connected", {
+    userID: socket.id,
+    username: socket.username,
+  });
+
+  socket.on("disconnect", async () => {
+    const matchingSockets = await io.in(socket.userID).allSockets();
+    const isDisconnected = matchingSockets.size === 0;
+    if (isDisconnected) {
+      // notify other users
+      socket.broadcast.emit("user disconnected", socket.userID);
+      // update the connection status of the session
+      sessionStore.saveSession(socket.sessionID, {
+        userID: socket.userID,
+        username: socket.username,
+        connected: false,
+      });
+    }
+  });
+
+  socket.on("private message", ({ content, to }) => {
+    console.log(to,'new message comming', content);
+    
+    socket.to(to).to(socket.userID).emit("private message", {
+      content,
+      from: socket.id,
+      to
+    });
+  });
+  // ...
+});
+
+
+
+httpServer.listen(port, () => {
   console.log(
     `${chalk.green('✓')} ${chalk.blue(
       `Listening on port ${port}. Visit http://localhost:${port}/ in your browser.`

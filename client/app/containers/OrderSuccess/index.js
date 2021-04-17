@@ -29,16 +29,18 @@ class OrderSuccess extends React.PureComponent {
 
   render() {
     const { order, isLoading } = this.props;
+    console.log(order, 'order');
+    
 
     return (
       <div className='order-success'>
         {isLoading ? (
           <LoadingIndicator />
-        ) : order._id ? (
+        ) : order?.id ? (
           <div className='order-message'>
             <h2>Thank you for your order.</h2>
             <p>
-              Order #<span className='order-label'>{order._id}</span> is
+              Order #<span className='order-label'>{order?.id}</span> is
               complete.
             </p>
             <p>A confirmation email will be sent to you shortly.</p>

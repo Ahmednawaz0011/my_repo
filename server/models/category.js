@@ -1,11 +1,6 @@
 
 module.exports = (sequelize, Sequelize) => {
   const Category = sequelize.define("Category", {
-  _id: {
-    type: Sequelize.STRING,
-    // type: Schema.ObjectId,
-    auto: true
-  },
   name: {
     type: Sequelize.STRING,
     trim: true
@@ -24,12 +19,12 @@ module.exports = (sequelize, Sequelize) => {
   },
   isActive: {
     type: Sequelize.BOOLEAN,
-    default: true
+    defaultValue: true
   },
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
 

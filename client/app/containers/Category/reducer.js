@@ -61,7 +61,7 @@ const categoryReducer = (state = initialState, action) => {
         categories: [...state.categories, action.payload]
       };
     case REMOVE_CATEGORY:
-      const index = state.categories.findIndex(b => b._id === action.payload);
+      const index = state.categories.findIndex(b => b.id === action.payload);
       return {
         ...state,
         categories: [

@@ -8,7 +8,7 @@ const auth = require('../../middleware/auth');
 router.post('/add', auth, (req, res) => {
   const user = req.user;
 
-  const address = new Address(Object.assign(req.body, { user: user._id }));
+  const address = new Address(Object.assign(req.body, { user: user.id }));
 
   address.save((err, data) => {
     if (err) {
@@ -27,7 +27,7 @@ router.post('/add', auth, (req, res) => {
 
 // fetch all addresses api
 router.get('/', auth, (req, res) => {
-  Address.find({ user: req.user._id }, (err, data) => {
+  Address.find({ user: req.user.id }, (err, data) => {
     if (err) {
       return res.status(400).json({
         error: 'Your request could not be processed. Please try again.'
@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
   try {
     const addressId = req.params.id;
 
-    const addressDoc = await Address.findOne({ _id: addressId });
+    const addressDoc = await Address.findOne({ id: addressId });
 
     if (!addressDoc) {
       res.status(404).json({
@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
   try {
     const addressId = req.params.id;
     const update = req.body;
-    const query = { _id: addressId };
+    const query = { id: addressId };
 
     await Address.findOneAndUpdate(query, update, {
       new: true
@@ -84,7 +84,7 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/delete/:id', (req, res) => {
-  Address.deleteOne({ _id: req.params.id }, (err, data) => {
+  Address.deleteOne({ id: req.params.id }, (err, data) => {
     if (err) {
       return res.status(400).json({
         error: 'Your request could not be processed. Please try again.'

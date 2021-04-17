@@ -104,7 +104,7 @@ export const fetchMerchants = () => {
 export const approveMerchant = merchant => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.put(`/api/merchant/approve/${merchant._id}`);
+      const response = await axios.put(`/api/merchant/approve/${merchant.id}`);
 
       dispatch(fetchMerchants());
     } catch (error) {
@@ -116,7 +116,7 @@ export const approveMerchant = merchant => {
 export const rejectMerchant = merchant => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.put(`/api/merchant/reject/${merchant._id}`);
+      const response = await axios.put(`/api/merchant/reject/${merchant.id}`);
 
       dispatch(fetchMerchants());
     } catch (error) {

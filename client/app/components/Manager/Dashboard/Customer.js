@@ -13,9 +13,8 @@ import AccountMenu from '../AccountMenu';
 import Page404 from '../../Common/Page404';
 
 import Account from '../../../containers/Account';
-import AccountSecurity from '../../../containers/AccountSecurity';
-import Address from '../../../containers/Address';
 import Order from '../../../containers/Order';
+import Chat from '../../../containers/Chat';
 
 const Customer = props => {
   return (
@@ -28,9 +27,8 @@ const Customer = props => {
           <div className='panel-body'>
             <Switch>
               <Route exact path='/dashboard' component={Account} />
-              <Route path='/dashboard/security' component={AccountSecurity} />
-              <Route path='/dashboard/address' component={Address} />
               <Route path='/dashboard/orders' component={Order} />
+              <Route path='/dashboard/chat' component={Chat} />
               <Route path='*' component={Page404} />
             </Switch>
           </div>

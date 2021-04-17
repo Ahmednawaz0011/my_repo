@@ -18,6 +18,7 @@ import Address from '../../../containers/Address';
 import Product from '../../../containers/Product';
 import Brand from '../../../containers/Brand';
 import Order from '../../../containers/Order';
+import Stats from '../../../containers/Stats';
 
 const Customer = props => {
   return (
@@ -30,6 +31,7 @@ const Customer = props => {
           <div className='panel-body'>
             <Switch>
               <Route exact path='/dashboard' component={Account} />
+              <Route exact path='/dashboard/stats' component={Stats} />
               <Route path='/dashboard/security' component={AccountSecurity} />
               <Route path='/dashboard/address' component={Address} />
               <Route path='/dashboard/product' component={Product} />

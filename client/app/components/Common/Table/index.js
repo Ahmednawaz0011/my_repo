@@ -34,13 +34,13 @@ const Table = props => {
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-      clickAction(row._id, rowIndex);
+      clickAction(row.id, rowIndex);
     }
   };
 
   return (
     <ToolkitProvider
-      keyField='_id'
+      keyField='id'
       data={data}
       columns={columns}
       exportCSV={csv}
@@ -65,7 +65,7 @@ const Table = props => {
           )}
           <BootstrapTable
             {...props.baseProps}
-            keyField='_id'
+            keyField='id'
             data={data}
             columns={columns}
             striped={striped}

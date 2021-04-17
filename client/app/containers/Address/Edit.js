@@ -44,7 +44,7 @@ class Edit extends React.PureComponent {
         actionTitle='Cancel'
         handleAction={() => history.goBack()}
       >
-        {address?._id ? (
+        {address?.id ? (
           <EditAddress
             address={address}
             addressChange={addressEditChange}

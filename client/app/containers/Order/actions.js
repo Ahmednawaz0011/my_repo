@@ -86,7 +86,7 @@ export const cancelOrder = () => {
     try {
       const order = getState().order.order;
 
-      await axios.delete(`/api/order/cancel/${order._id}`);
+      await axios.delete(`/api/order/cancel/${order.id}`);
 
       dispatch(push(`/dashboard/orders`));
     } catch (error) {
@@ -95,14 +95,37 @@ export const cancelOrder = () => {
   };
 };
 
+export const changeOrderStatus = (value) => {
+  return async (dispatch, getState) => {
+    try {
+      const order = getState().order.order;
+
+      const response = await axios.put(`/api/order/change-status/${order.id}`, {
+        status: value,
+      });
+
+      const successfulOptions = {
+        title: `Status Updated`,
+        position: 'tr',
+        autoDismiss: 1
+      };
+
+      dispatch(success(successfulOptions));
+      dispatch(fetchOrder(order.id));
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
+
 export const cancelOrderItem = itemId => {
   return async (dispatch, getState) => {
     try {
       const order = getState().order.order;
 
       const response = await axios.put(`/api/order/cancel/item/${itemId}`, {
-        orderId: order._id,
-        cartId: order.cartId
+        orderId: order.id,
       });
 
       if (response.data.orderCancelled) {
@@ -123,21 +146,18 @@ export const cancelOrderItem = itemId => {
   };
 };
 
-export const addOrder = () => {
+export const addOrder = (cart) => {
   return async (dispatch, getState) => {
     try {
-      const cartId = localStorage.getItem('cart_id');
       const total = getState().cart.cartTotal;
 
-      if (cartId) {
         const response = await axios.post(`/api/order/add`, {
-          cartId,
-          total
+          total,
+          cart
         });
 
-        dispatch(push(`/order/success/${response.data.order._id}`));
+        dispatch(push(`/order/success/${response.data.order.id}`));
         dispatch(clearCart());
-      }
     } catch (error) {
       handleError(error, dispatch);
     }
@@ -149,11 +169,12 @@ export const placeOrder = () => {
     const token = localStorage.getItem('token');
 
     const cartItems = getState().cart.cartItems;
+console.log(cartItems, 'token token', token);
 
     if (token && cartItems.length > 0) {
-      Promise.all([dispatch(getCartId())]).then(() => {
-        dispatch(addOrder());
-      });
+
+        dispatch(addOrder(cartItems));
+      
     }
 
     dispatch(toggleCart());

@@ -21,14 +21,14 @@ import LoadingIndicator from '../../components/Common/LoadingIndicator';
 class ProductPage extends React.PureComponent {
   componentDidMount() {
     const slug = this.props.match.params.slug;
-    // this.props.fetchStoreProduct(slug);
+    this.props.fetchStoreProduct(slug);
     document.body.classList.add('product-page');
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.match.params.slug !== prevProps.match.params.slug) {
       const slug = this.props.match.params.slug;
-      // this.props.fetchStoreProduct(slug);
+      this.props.fetchStoreProduct(slug);
     }
   }
 
@@ -39,7 +39,7 @@ class ProductPage extends React.PureComponent {
   render() {
     const {
       isLoading,
-      // product,
+      product,
       productShopData,
       shopFormErrors,
       itemsInCart,
@@ -48,23 +48,8 @@ class ProductPage extends React.PureComponent {
       handleRemoveFromCart
     } = this.props;
 
-    let  product = 
-      {
-        "slug": "pr-3",
-        "imageUrl": "https://static-01.daraz.pk/p/2601c2ade007f68d03a7adf3f8da6821.jpg_720x720q80.jpg_.webp",
-        "name":"Oxford Cotton Plain Polo T-Shirt For Men",
-        "brand":{
-          "name":"Polo",
-          slug: "polo"
-        },
-        "category":{
-          name: "Men's Fashion",
-          slug: 'men-fashion'
-        },
-        "description": "Cotton Polo, Plain T-Shirt, Charcoal",
-        "price": 3299
-      
-    }
+    console.log(product ,'is the');
+    
 
     return (
       <div className='product-shop'>
@@ -78,7 +63,7 @@ class ProductPage extends React.PureComponent {
                   className='item-image'
                   src={`${
                     product.imageUrl
-                      ? product.imageUrl
+                      ? '/api/product/get/'+product.imageUrl
                       : '/images/placeholder-image.png'
                   }`}
                 />
@@ -102,10 +87,10 @@ class ProductPage extends React.PureComponent {
                       <p className='by'>
                         see more from{' '}
                         <Link
-                          to={`/shop/brand/${product.brand.slug}`}
+                          to={`/shop/brand/${product.brand}`}
                           className='default-link'
                         >
-                          {product.brand.name}
+                          {product?.Brand?.name}
                         </Link>
                       </p>
                     )}
@@ -132,7 +117,7 @@ class ProductPage extends React.PureComponent {
                     />
                   </div>
                   <div className='item-actions'>
-                    {itemsInCart.includes(product._id) ? (
+                    {itemsInCart.includes(product.id) ? (
                       <Button
                         variant='primary'
                         disabled={

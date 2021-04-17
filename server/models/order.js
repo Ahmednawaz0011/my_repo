@@ -1,22 +1,22 @@
 
 module.exports = (sequelize, Sequelize) => {
   const Order = sequelize.define("Order", {
-    cart: {
-      type: Sequelize.STRING,
-      ref: 'Cart'
-    },
     user: {
-      type: Sequelize.STRING,
-      ref: 'User'
+      type: Sequelize.INTEGER,
     },
     total: {
       type: Sequelize.INTEGER,
-      default: 0
+      defaultValue: 0
+    },
+    status: {
+      type: Sequelize.ENUM,
+      defaultValue: 'Not processed',
+      values: ['Not processed', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
     },
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
 

@@ -36,6 +36,7 @@ router.post(
       const brand = req.body.brand != 0 ? req.body.brand : null;
       const category = req.body.category != 0 ? req.body.category : null;
       const imageUrl = req.file ? req.file.filename : '';
+      const merchant = req.user.id
 
       console.log(req.file.filename, 'file is the');
 
@@ -75,7 +76,7 @@ router.post(
         brand,
         category,
         imageUrl,
-        // imageKey
+        merchant
       };
 
       const savedProduct = await Product.create(product);
@@ -98,14 +99,13 @@ router.post(
 // fetch store products api
 router.get('/list', async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true }).populate(
-      'brand',
-      'name'
-    );
+    const products = await Product.findAll({ where:{isActive: true} })
     res.status(200).json({
       products
     });
   } catch (error) {
+    console.log(error, 'ddd');
+    
     res.status(400).json({
       error: 'Your request could not be processed. Please try again.'
     });
@@ -120,23 +120,12 @@ router.get(
   async (req, res) => {
     try {
       let products = [];
-
-      if (req.user.merchant) {
-        const brands = await Brand.find({
-          merchant: req.user.merchant
-        }).populate('merchant', '_id');
-
-        const brandId = brands[0]['_id'];
-
-        products = await Product.find({})
-          .populate({
-            path: 'brand',
-            populate: {
-              path: 'merchant',
-              model: 'Merchant'
-            }
-          })
-          .where('brand', brandId);
+      if (req.user.role == role.ROLES.Merchant) {
+        products = await Product.findAll({
+          where:{merchant: req.user.id},
+          include: [
+            { model: Brand},{ model: Category }],
+        })
       } else {
         products = await Product.findAll({
           include: [
@@ -148,6 +137,8 @@ router.get(
         products
       });
     } catch (error) {
+      console.log(error);
+      
       res.status(400).json({
         error: 'Your request could not be processed. Please try again.'
       });
@@ -181,20 +172,22 @@ router.get('/:id', async (req, res) => {
 // fetch product slug api
 router.get('/item/:slug', async (req, res) => {
   try {
-    const slug = req.params.slug;
+    const {slug} = req.params;
 
-    const productDoc = await Product.findOne({ slug, isActive: true }).populate(
-      'brand'
-    );
+    const productData = await Product.findOne({
+      where:{id: slug},
+      include: [
+        { model: Brand},{ model: Category }],
+    })
 
-    if (!productDoc) {
+    if (!productData) {
       return res.status(404).json({
         message: 'No product found.'
       });
     }
 
     res.status(200).json({
-      product: productDoc
+      product: productData
     });
   } catch (error) {
     res.status(400).json({
@@ -206,21 +199,21 @@ router.get('/item/:slug', async (req, res) => {
 // fetch all products by category api
 router.get('/list/category/:slug', async (req, res) => {
   try {
-    const slug = req.params.slug;
+    const {slug} = req.params;
 
-    const categoryDoc = await Category.findOne(
-      { slug, isActive: true },
-      'products -_id'
-    ).populate('products');
-
-    if (!categoryDoc) {
+   const products = await Product.findAll({
+      where:{category: slug},
+      include: [
+        { model: Brand},{ model: Category }],
+    })
+    if (!products) {
       return res.status(404).json({
         message: 'No products found.'
       });
     }
 
     res.status(200).json({
-      products: categoryDoc ? categoryDoc.products : categoryDoc
+      products: products
     });
   } catch (error) {
     res.status(400).json({
@@ -232,20 +225,13 @@ router.get('/list/category/:slug', async (req, res) => {
 // fetch all products by brand api
 router.get('/list/brand/:slug', async (req, res) => {
   try {
-    const slug = req.params.slug;
+    const {slug} = req.params;
 
-    const brand = await Brand.find({ slug, isActive: true });
-
-    if (brand.length <= 0) {
-      return res.status(404).json({
-        message: `Cannot find brand with the slug: ${slug}.`
-      });
-    }
-
-    const products = await Product.find({ brand: brand[0]._id }).populate(
-      'brand',
-      'name'
-    );
+    const products = await Product.findAll({
+      where:{brand: slug},
+      include: [
+        { model: Brand},{ model: Category }],
+    })
 
     res.status(200).json({
       products

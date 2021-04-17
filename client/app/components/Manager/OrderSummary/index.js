@@ -11,17 +11,28 @@ import { Col } from 'reactstrap';
 const OrderSummary = props => {
   const { order } = props;
 
+  const getTotal = () =>{
+    let total = 0;
+    for(let pr of order.OrderDetails || []){
+      console.log(pr);
+      if(pr.status != "Cancelled"){
+        total+=pr.productPrice * pr.quantity
+      }   
+    }
+    return total
+  }
+
   return (
     <Col className='order-summary pt-3'>
       <h2>Order Summary</h2>
       <div className='d-flex align-items-center summary-item'>
         <p className='summary-label'>Subtotal</p>
-        <p className='summary-value ml-auto'>${order.total}</p>
+        <p className='summary-value ml-auto'>${getTotal()}</p>
       </div>
-      <div className='d-flex align-items-center summary-item'>
+      {/* <div className='d-flex align-items-center summary-item'>
         <p className='summary-label'>Est. Sales Tax</p>
-        <p className='summary-value ml-auto'>${order.totalTax}</p>
-      </div>
+        <p className='summary-value ml-auto'>${0}</p>
+      </div> */}
 
       <div className='d-flex align-items-center summary-item'>
         <p className='summary-label'>Shipping & Handling</p>
@@ -31,7 +42,7 @@ const OrderSummary = props => {
       <hr />
       <div className='d-flex align-items-center summary-item'>
         <p className='summary-label'>Total</p>
-        <p className='summary-value ml-auto'>${order.totalWithTax}</p>
+        <p className='summary-value ml-auto'>${getTotal()}</p>
       </div>
     </Col>
   );

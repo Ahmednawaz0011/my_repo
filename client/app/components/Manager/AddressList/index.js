@@ -17,7 +17,7 @@ const AddressList = props => {
     <div className='a-list'>
       {addresses.map((address, index) => (
         <Link
-          to={`/dashboard/address/edit/${address._id}`}
+          to={`/dashboard/address/edit/${address.id}`}
           key={index}
           className='d-block'
         >

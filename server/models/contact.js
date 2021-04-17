@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
 

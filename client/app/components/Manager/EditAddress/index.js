@@ -119,7 +119,7 @@ const EditAddress = props => {
           <Button
             variant='danger'
             text='Delete'
-            onClick={() => deleteAddress(address._id)}
+            onClick={() => deleteAddress(address.id)}
           />
         </div>
       </form>

@@ -25,11 +25,11 @@ const ProductList = props => {
             <div className='product-container'>
               <div className='item-box'>
                 <div className='item-body'>
-                  <Link to={`/product/${product.slug}`} className='item-link'>
+                  <Link to={`/product/${product.id}`} className='item-link'>
                     <img
                       src={`${
                         product.imageUrl
-                          ? product.imageUrl
+                          ? '/api/product/get/'+product.imageUrl
                           : '/images/placeholder-image.png'
                       }`}
                     />
@@ -37,7 +37,7 @@ const ProductList = props => {
                       <h1 className='item-name'>{product.name}</h1>
                       {product.brand && (
                         <p className='by'>
-                          By <span>{product.brand.name}</span>
+                          By <span>{product?.Brand?.name}</span>
                         </p>
                       )}
                       <p className='item-desc mb-0'>{product.description}</p>

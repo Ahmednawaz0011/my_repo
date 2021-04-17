@@ -28,17 +28,20 @@ class OrderPage extends React.PureComponent {
   }
 
   render() {
-    const { order, isLoading, cancelOrder, cancelOrderItem } = this.props;
+    const { order, isLoading, cancelOrder, cancelOrderItem, changeOrderStatus,user } = this.props;
+console.log(user, 'account account account');
 
     return (
       <div className='order-page'>
         {isLoading ? (
           <LoadingIndicator backdrop />
-        ) : order._id ? (
+        ) : order.id ? (
           <OrderDetails
             order={order}
             cancelOrder={cancelOrder}
             cancelOrderItem={cancelOrderItem}
+            changeOrderStatus={changeOrderStatus}
+            user={user}
           />
         ) : (
           <NotFound message='no order found.' />
@@ -51,7 +54,8 @@ class OrderPage extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     order: state.order.order,
-    isLoading: state.order.isLoading
+    isLoading: state.order.isLoading,
+    user: state.account.user
   };
 };
 

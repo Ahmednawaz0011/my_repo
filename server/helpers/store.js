@@ -4,7 +4,7 @@ exports.disableProducts = products => {
   let bulkOptions = products.map(item => {
     return {
       updateOne: {
-        filter: { _id: item._id },
+        filter: { id: item.id },
         update: { isActive: false }
       }
     };

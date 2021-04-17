@@ -28,7 +28,7 @@ const cartReducer = (state = initialState, action) => {
       newState = {
         ...state,
         cartItems: [...state.cartItems, action.payload],
-        itemsInCart: [...state.itemsInCart, action.payload._id]
+        itemsInCart: [...state.itemsInCart, action.payload.id]
       };
 
       localStorage.setItem('cart_items', JSON.stringify(newState.cartItems));
@@ -39,7 +39,7 @@ const cartReducer = (state = initialState, action) => {
       return newState;
     case REMOVE_FROM_CART:
       let itemIndex = state.cartItems.findIndex(
-        x => x._id == action.payload._id
+        x => x.id == action.payload.id
       );
       newState = {
         ...state,

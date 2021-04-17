@@ -21,19 +21,19 @@ module.exports = (sequelize, Sequelize) => {
   },
   merchantRequest: {
     type: Sequelize.BOOLEAN,
-    default: 0
+    defaultValue: 0
   },
   provider: {
     type: Sequelize.STRING,
     required: true,
-    default: 'email'
+    defaultValue: 'email'
   },
   avatar: {
     type: Sequelize.STRING
   },
   role: {
     type: Sequelize.ENUM,
-    default: 'ROLE_MEMBER',
+    defaultValue: 'ROLE_MEMBER',
     values: ['ROLE_MEMBER', 'ROLE_ADMIN', 'ROLE_MERCHANT']
   },
   resetPasswordToken: { type: Sequelize.STRING },
@@ -41,7 +41,7 @@ module.exports = (sequelize, Sequelize) => {
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
 

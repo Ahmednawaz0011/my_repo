@@ -16,7 +16,7 @@ import {
 const initialState = {
   orders: [],
   order: {
-    _id: '',
+    id: '',
     cartId: '',
     products: [],
     totalTax: 0,
@@ -41,7 +41,7 @@ const orderReducer = (state = initialState, action) => {
       };
     case UPDATE_ORDER:
       const itemIndex = state.order.products.findIndex(
-        item => item._id === action.payload.itemId
+        item => item.id === action.payload.itemId
       );
 
       const newProducts = [...state.order.products];

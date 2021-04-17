@@ -91,7 +91,7 @@ router.put('/approve/:merchantId', auth, async (req, res) => {
   try {
     const merchantId = req.params.merchantId;
 
-    const query = { _id: merchantId };
+    const query = { id: merchantId };
     const update = {
       status: 'Approved',
       isActive: true
@@ -119,7 +119,7 @@ router.put('/reject/:merchantId', auth, async (req, res) => {
   try {
     const merchantId = req.params.merchantId;
 
-    const query = { _id: merchantId };
+    const query = { id: merchantId };
     const update = {
       status: 'Rejected'
     };
@@ -164,7 +164,7 @@ router.post('/signup/:token', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const query = { _id: userDoc._id };
+    const query = { id: userDoc.id };
     const update = {
       email,
       firstName,
@@ -187,11 +187,11 @@ router.post('/signup/:token', async (req, res) => {
   }
 });
 
-const createMerchantBrand = async ({ _id, brand, business }) => {
+const createMerchantBrand = async ({ id, brand, business }) => {
   const newBrand = new Brand({
     name: brand,
     description: business,
-    merchant: _id
+    merchant: id
   });
 
   return await newBrand.save();
@@ -204,7 +204,7 @@ const createMerchantUser = async (email, merchant, host) => {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    const query = { _id: existingUser._id };
+    const query = { id: existingUser.id };
     const update = {
       merchant,
       role: role.ROLES.Merchant

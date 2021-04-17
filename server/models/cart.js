@@ -31,12 +31,7 @@ module.exports = (sequelize, Sequelize) => {
     products: {    
       type: Sequelize.STRING,
       allowNull: false,
-      get() {
-          return this.getDataValue('favColors').split(';')
-      },
-      set(val) {
-         this.setDataValue('favColors',val.join(';'));
-      }},
+    },
     user: {
       type: Sequelize.STRING,
       // type: Schema.Types.ObjectId,
@@ -45,7 +40,7 @@ module.exports = (sequelize, Sequelize) => {
   updated: Sequelize.DATE,
   created: {
     type: Sequelize.DATE,
-    default: Date.now
+    defaultValue: Date.now
   }
   });
 
